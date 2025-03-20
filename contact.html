@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | ACUMEN 2025 | CSE Fest | Vasavi College of Engineering</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/cyberpunk.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Quick fix for scrolling issues */
+        html {
+            scroll-behavior: smooth;
+            height: auto !important;
+            overflow-y: auto !important;
+        }
+        
+        body {
+            height: auto !important;
+            overflow-y: auto !important;
+            min-height: 100vh;
+        }
+        
+        /* Contact Page Specific Styles */
+        .contact-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin: 50px 0;
+        }
+        
+        .contact-info {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .contact-form-container {
+            flex: 2;
+            min-width: 300px;
+        }
+        
+        .contact-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--primary-color);
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .contact-card:hover {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+        }
+        
+        .contact-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .contact-card h3 i {
+            margin-right: 10px;
+        }
+        
+        .contact-item {
+            display: flex;
+            margin-bottom: 15px;
+        }
+        
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(0, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: var(--primary-color);
+        }
+        
+        .contact-text {
+            flex: 1;
+        }
+        
+        .contact-text h4 {
+            color: var(--text-light);
+            margin-bottom: 5px;
+            font-size: 1rem;
+        }
+        
+        .contact-text p {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+        }
+        
+        .contact-form {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--primary-color);
+            border-radius: 10px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .contact-form:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            opacity: 0.05;
+            z-index: -1;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--primary-color);
+            border-radius: 5px;
+            color: var(--text-light);
+            font-family: var(--body-font);
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 10px rgba(255, 0, 255, 0.3);
+            outline: none;
+        }
+        
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .form-row .form-group {
+            flex: 1 1 300px;
+        }
+        
+        .contact-actions {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .social-contact {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .student-contacts {
+            margin-top: 30px;
+        }
+        
+        .student-contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .student-contact-item img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 15px;
+            border: 2px solid var(--primary-color);
+        }
+        
+        .student-contact-info h4 {
+            color: var(--text-light);
+            margin-bottom: 3px;
+        }
+        
+        .student-contact-info p {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+        
+        .whatsapp-group {
+            margin-top: 30px;
+            background: rgba(37, 211, 102, 0.1);
+            border: 1px solid #25d366;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .whatsapp-group h4 {
+            color: #25d366;
+            margin-bottom: 10px;
+        }
+        
+        .whatsapp-group p {
+            color: var(--text-dim);
+            margin-bottom: 15px;
+        }
+        
+        .whatsapp-btn {
+            display: inline-flex;
+            align-items: center;
+            background: #25d366;
+            color: #fff;
+            border-radius: 5px;
+            padding: 10px 15px;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .whatsapp-btn i {
+            margin-right: 8px;
+        }
+        
+        .whatsapp-btn:hover {
+            background: #128c7e;
+            color: #fff;
+            transform: translateY(-2px);
+        }
+        
+        .map-container {
+            margin-top: 50px;
+            border: 2px solid var(--primary-color);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .map-container iframe {
+            width: 100%;
+            height: 400px;
+            border: none;
+        }
+        
+        .required:after {
+            content: '*';
+            color: var(--secondary-color);
+            margin-left: 3px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Glitch Effect Overlay -->
+    <div class="glitch-overlay"></div>
+    
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <img src="img/acumen-logo.png" alt="ACUMEN Logo">
+            </div>
+            <div class="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="schedule.html">Schedule</a></li>
+                <li><a href="registration.html">Register</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="team.html">Team</a></li>
+                <li><a href="sponsors.html">Sponsors</a></li>
+                <li><a href="contact.html" class="active">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Banner -->
+    <section class="page-banner">
+        <div class="container">
+            <h1 class="glitch-text" data-text="CONTACT US">CONTACT US</h1>
+            <p>Get in touch with the ACUMEN team for inquiries and support</p>
+        </div>
+        <div class="hero-overlay"></div>
+        <div class="hero-grid"></div>
+    </section>
+
+    <!-- Contact Content -->
+    <section class="contact-section">
+        <div class="container">
+            <div class="contact-container">
+                <div class="contact-info">
+                    <div class="contact-card">
+                        <h3><i class="fas fa-info-circle" aria-hidden="true"></i> Contact Information</h3>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="contact-text">
+                                <h4>Address</h4>
+                                <p>Department of CSE, Vasavi College of Engineering, Ibrahimbagh, Hyderabad - 500031, Telangana</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-text">
+                                <h4>Email</h4>
+                                <p>acumen@vasavi.ac.in</p>
+                                <p>support@acumenfest.in</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="contact-text">
+                                <h4>Phone</h4>
+                                <p>+91 98765 43210 (Technical Support)</p>
+                                <p>+91 87654 32109 (Registration)</p>
+                            </div>
+                        </div>
+                        
+                        <div class="social-contact">
+                            <a href="#" class="social-icon" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+                            <a href="#" class="social-icon" aria-label="Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+                            <a href="#" class="social-icon" aria-label="Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+                            <a href="#" class="social-icon" aria-label="LinkedIn"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-card">
+                        <h3><i class="fas fa-user-headset" aria-hidden="true"></i> Student Coordinators</h3>
+                        
+                        <div class="student-contacts">
+                            <div class="student-contact-item">
+                                <img src="img/team/student1.jpg" alt="Student Coordinator">
+                                <div class="student-contact-info">
+                                    <h4>Aarav Sharma</h4>
+                                    <p>Technical Coordinator</p>
+                                    <p>+91 90123 45678</p>
+                                </div>
+                            </div>
+                            
+                            <div class="student-contact-item">
+                                <img src="img/team/student2.jpg" alt="Student Coordinator">
+                                <div class="student-contact-info">
+                                    <h4>Priya Patel</h4>
+                                    <p>Event Coordinator</p>
+                                    <p>+91 98765 09876</p>
+                                </div>
+                            </div>
+                            
+                            <div class="student-contact-item">
+                                <img src="img/team/student3.jpg" alt="Student Coordinator">
+                                <div class="student-contact-info">
+                                    <h4>Vikram Reddy</h4>
+                                    <p>Registration Coordinator</p>
+                                    <p>+91 87654 12345</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="whatsapp-group">
+                            <h4><i class="fab fa-whatsapp" aria-hidden="true"></i> Join Participant Group</h4>
+                            <p>Join our WhatsApp group for quick updates and support</p>
+                            <a href="#" class="whatsapp-btn">
+                                <i class="fab fa-whatsapp" aria-hidden="true"></i> Join Group
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form-container">
+                    <form class="contact-form" id="contactForm">
+                        <h2 class="form-title">Send us a Message</h2>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name" class="required">Full Name</label>
+                                <input type="text" id="name" name="name" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="email" class="required">Email</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="phone">Phone</label>
+                                <input type="tel" id="phone" name="phone">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="subject" class="required">Subject</label>
+                                <select id="subject" name="subject" required>
+                                    <option value="">Select Subject</option>
+                                    <option value="event-query">Event Related Query</option>
+                                    <option value="registration">Registration Support</option>
+                                    <option value="technical">Technical Support</option>
+                                    <option value="sponsorship">Sponsorship Inquiry</option>
+                                    <option value="accommodation">Accommodation Query</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message" class="required">Message</label>
+                            <textarea id="message" name="message" required></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="eventInterest">Events you're interested in</label>
+                            <select id="eventInterest" name="eventInterest" multiple>
+                                <option value="hackathon">CyberHack - 24 Hour Hackathon</option>
+                                <option value="bugbusters">Bug Busters - Code Debugging Challenge</option>
+                                <option value="aichallenge">NeuralNexus - AI Challenge</option>
+                                <option value="gaming">CyberClash - Gaming Tournament</option>
+                                <option value="workshop">Workshops</option>
+                            </select>
+                            <small style="color: var(--text-dim);">Hold Ctrl or Cmd to select multiple events</small>
+                        </div>
+                        
+                        <div class="contact-actions">
+                            <button type="submit" class="btn btn-primary">Send Message</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3807.410451425557!2d78.3991847!3d17.4008991!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bcb97922146e615%3A0x79e2ae08523aaffc!2sVasavi%20College%20of%20Engineering!5e0!3m2!1sen!2sin!4v1635868037071!5m2!1sen!2sin" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="img/acumen-logo-white.png" alt="ACUMEN Logo">
+                    <p>ACUMEN 2025 | CSE Department</p>
+                    <p>Vasavi College of Engineering</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="registration.html">Register</a></li>
+                        <li><a href="team.html">Team</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contact Us</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Vasavi College of Engineering, Hyderabad</p>
+                    <p><i class="fas fa-phone"></i> +91 98765 43210</p>
+                    <p><i class="fas fa-envelope"></i> acumen@vasavi.ac.in</p>
+                </div>
+                <div class="footer-social">
+                    <h3>Follow Us</h3>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+                        <a href="#" class="social-icon" aria-label="Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+                        <a href="#" class="social-icon" aria-label="Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+                        <a href="#" class="social-icon" aria-label="LinkedIn"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 ACUMEN - Vasavi College of Engineering. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const contactForm = document.getElementById('contactForm');
+            
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Basic form validation
+                    const name = document.getElementById('name');
+                    const email = document.getElementById('email');
+                    const subject = document.getElementById('subject');
+                    const message = document.getElementById('message');
+                    
+                    if (name.value.trim() === '' || email.value.trim() === '' || 
+                        subject.value.trim() === '' || message.value.trim() === '') {
+                        alert('Please fill in all required fields.');
+                        return;
+                    }
+                    
+                    // Email validation
+                    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailPattern.test(email.value)) {
+                        alert('Please enter a valid email address.');
+                        email.focus();
+                        return;
+                    }
+                    
+                    // Simulate form submission
+                    alert('Thank you for your message! We will get back to you soon.');
+                    contactForm.reset();
+                });
+            }
+        });
+    </script>
+</body>
+</html>

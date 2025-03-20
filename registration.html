@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration | ACUMEN 2025 | CSE Fest | Vasavi College of Engineering</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/cyberpunk.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Quick fix for scrolling issues */
+        html {
+            scroll-behavior: smooth;
+            height: auto !important;
+            overflow-y: auto !important;
+        }
+        
+        body {
+            height: auto !important;
+            overflow-y: auto !important;
+            min-height: 100vh;
+        }
+        
+        /* Registration Form Styles */
+        .registration-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 0;
+        }
+        
+        .registration-form {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--primary-color);
+            border-radius: 10px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+        }
+        
+        .registration-form:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            opacity: 0.05;
+            z-index: -1;
+        }
+        
+        .form-title {
+            margin-bottom: 30px;
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            text-align: center;
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+        }
+        
+        .form-section h3 {
+            color: var(--secondary-color);
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+        
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+            gap: 20px;
+        }
+        
+        .form-group {
+            flex: 1 1 300px;
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--primary-color);
+            border-radius: 5px;
+            color: var(--text-light);
+            font-family: var(--body-font);
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 10px rgba(255, 0, 255, 0.3);
+            outline: none;
+        }
+        
+        .form-group select {
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%2300ffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>');
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 18px;
+        }
+        
+        .form-group textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin-right: 10px;
+            accent-color: var(--primary-color);
+        }
+        
+        .event-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .event-checkbox-card {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 15px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .event-checkbox-card:hover {
+            background: rgba(0, 0, 0, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 255, 255, 0.2);
+        }
+        
+        .event-checkbox-card input[type="checkbox"] {
+            display: none;
+        }
+        
+        .event-checkbox-card.selected {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.3);
+        }
+        
+        .event-checkbox-card .event-name {
+            font-weight: bold;
+            color: var(--text-light);
+            margin-bottom: 5px;
+            font-family: var(--header-font);
+        }
+        
+        .event-checkbox-card .event-fee {
+            color: var(--accent-color);
+            font-size: 0.9rem;
+        }
+        
+        .event-checkbox-card .event-details {
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+        
+        .form-note {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+        
+        .form-total {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            margin: 20px 0;
+            border-top: 1px solid rgba(0, 255, 255, 0.2);
+            border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+        }
+        
+        .form-total .total-label {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--text-light);
+        }
+        
+        .form-total .total-amount {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .form-actions {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .form-actions .btn {
+            min-width: 150px;
+        }
+        
+        .required:after {
+            content: '*';
+            color: var(--secondary-color);
+            margin-left: 3px;
+        }
+        
+        /* Payment Options */
+        .payment-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .payment-option {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 15px;
+            flex: 1 1 180px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .payment-option.selected {
+            border-color: var(--secondary-color);
+            background: rgba(255, 0, 255, 0.1);
+        }
+        
+        .payment-option img {
+            height: 30px;
+            margin-bottom: 10px;
+        }
+        
+        .payment-option input[type="radio"] {
+            display: none;
+        }
+        
+        /* Team Section */
+        .team-members-container {
+            margin-top: 20px;
+        }
+        
+        .team-member {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .team-member h4 {
+            color: var(--text-accent);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .remove-member {
+            color: var(--secondary-color);
+            cursor: pointer;
+            font-size: 1.2rem;
+            background: none;
+            border: none;
+        }
+        
+        .add-member-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            text-align: center;
+            margin-top: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px dashed var(--primary-color);
+            border-radius: 8px;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .add-member-btn:hover {
+            background: rgba(0, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Glitch Effect Overlay -->
+    <div class="glitch-overlay"></div>
+    
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <img src="img/acumen-logo.png" alt="ACUMEN Logo">
+            </div>
+            <div class="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="schedule.html">Schedule</a></li>
+                <li><a href="registration.html" class="active">Register</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="team.html">Team</a></li>
+                <li><a href="sponsors.html">Sponsors</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Banner -->
+    <section class="page-banner">
+        <div class="container">
+            <h1 class="glitch-text" data-text="REGISTRATION">REGISTRATION</h1>
+            <p>Register for ACUMEN 2025 events and workshops</p>
+        </div>
+        <div class="hero-overlay"></div>
+        <div class="hero-grid"></div>
+    </section>
+
+    <!-- Registration Form -->
+    <section class="registration-section">
+        <div class="container">
+            <div class="registration-container">
+                <form class="registration-form" id="registrationForm" novalidate>
+                    <h2 class="form-title">Event Registration</h2>
+                    
+                    <!-- Personal Information -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-user" aria-hidden="true"></i> Personal Information</h3>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName" class="required">First Name</label>
+                                <input type="text" id="firstName" name="firstName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName" class="required">Last Name</label>
+                                <input type="text" id="lastName" name="lastName" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="email" class="required">Email Address</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone" class="required">Phone Number</label>
+                                <input type="tel" id="phone" name="phone" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- College Information -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-graduation-cap" aria-hidden="true"></i> College Information</h3>
+                        <div class="form-group">
+                            <label for="college" class="required">College/University</label>
+                            <input type="text" id="college" name="college" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="course" class="required">Course</label>
+                                <select id="course" name="course" required>
+                                    <option value="">Select Course</option>
+                                    <option value="btech">B.Tech</option>
+                                    <option value="mtech">M.Tech</option>
+                                    <option value="mca">MCA</option>
+                                    <option value="bca">BCA</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="year" class="required">Year</label>
+                                <select id="year" name="year" required>
+                                    <option value="">Select Year</option>
+                                    <option value="1">1st Year</option>
+                                    <option value="2">2nd Year</option>
+                                    <option value="3">3rd Year</option>
+                                    <option value="4">4th Year</option>
+                                    <option value="5">5th Year</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Event Selection -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-calendar-alt" aria-hidden="true"></i> Event Selection</h3>
+                        <p>Choose the events you want to participate in:</p>
+                        
+                        <div class="event-cards">
+                            <label class="event-checkbox-card">
+                                <input type="checkbox" name="events" value="hackathon" data-fee="500" data-team="true">
+                                <div class="event-name">CyberHack</div>
+                                <div class="event-fee">₹500 per team</div>
+                                <div class="event-details">24-hour Hackathon (Team: 2-4)</div>
+                            </label>
+                            
+                            <label class="event-checkbox-card">
+                                <input type="checkbox" name="events" value="bugbusters" data-fee="300" data-team="false">
+                                <div class="event-name">Bug Busters</div>
+                                <div class="event-fee">₹300 per person</div>
+                                <div class="event-details">Code Debugging Challenge</div>
+                            </label>
+                            
+                            <label class="event-checkbox-card">
+                                <input type="checkbox" name="events" value="aichallenge" data-fee="400" data-team="true">
+                                <div class="event-name">NeuralNexus</div>
+                                <div class="event-fee">₹400 per team</div>
+                                <div class="event-details">AI Challenge (Team: 1-2)</div>
+                            </label>
+                            
+                            <label class="event-checkbox-card">
+                                <input type="checkbox" name="events" value="gaming" data-fee="250" data-team="false">
+                                <div class="event-name">CyberClash</div>
+                                <div class="event-fee">₹250 per person</div>
+                                <div class="event-details">Gaming Tournament</div>
+                            </label>
+                            
+                            <label class="event-checkbox-card">
+                                <input type="checkbox" name="events" value="workshop1" data-fee="350" data-team="false">
+                                <div class="event-name">AI Workshop</div>
+                                <div class="event-fee">₹350 per person</div>
+                                <div class="event-details">Machine Learning Basics</div>
+                            </label>
+                            
+                            <label class="event-checkbox-card">
+                                <input type="checkbox" name="events" value="workshop2" data-fee="350" data-team="false">
+                                <div class="event-name">Blockchain</div>
+                                <div class="event-fee">₹350 per person</div>
+                                <div class="event-details">Crypto & Smart Contracts</div>
+                            </label>
+                        </div>
+                        
+                        <p class="form-note">* Team events require additional team member information</p>
+                        
+                        <div id="teamMembersContainer" class="team-members-container" style="display: none;">
+                            <h4>Team Information</h4>
+                            <div class="form-group">
+                                <label for="teamName" class="required">Team Name</label>
+                                <input type="text" id="teamName" name="teamName">
+                            </div>
+                            
+                            <div id="teamMembers">
+                                <!-- Team members will be added here dynamically -->
+                            </div>
+                            
+                            <button type="button" id="addMember" class="add-member-btn">
+                                <i class="fas fa-plus"></i> Add Team Member
+                            </button>
+                        </div>
+                        
+                        <div class="form-total">
+                            <div class="total-label">Total Amount:</div>
+                            <div class="total-amount">₹0</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Payment Information -->
+                    <div class="form-section">
+                        <h3><i class="fas fa-credit-card" aria-hidden="true"></i> Payment Method</h3>
+                        <div class="payment-options">
+                            <label class="payment-option">
+                                <input type="radio" name="paymentMethod" value="upi" checked>
+                                <img src="img/payment/upi.png" alt="UPI">
+                                <div>UPI</div>
+                            </label>
+                            
+                            <label class="payment-option">
+                                <input type="radio" name="paymentMethod" value="card">
+                                <img src="img/payment/card.png" alt="Card">
+                                <div>Credit/Debit Card</div>
+                            </label>
+                            
+                            <label class="payment-option">
+                                <input type="radio" name="paymentMethod" value="netbanking">
+                                <img src="img/payment/bank.png" alt="Net Banking">
+                                <div>Net Banking</div>
+                            </label>
+                            
+                            <label class="payment-option">
+                                <input type="radio" name="paymentMethod" value="offline">
+                                <img src="img/payment/cash.png" alt="Offline">
+                                <div>Pay at College</div>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Terms and Conditions -->
+                    <div class="form-section">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="terms" name="terms" required>
+                            <label for="terms" class="required">I agree to the <a href="#" target="_blank">Terms and Conditions</a> and <a href="#" target="_blank">Privacy Policy</a></label>
+                        </div>
+                        
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="updates" name="updates">
+                            <label for="updates">I would like to receive updates about ACUMEN events</label>
+                        </div>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Register & Proceed to Payment</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="img/acumen-logo-white.png" alt="ACUMEN Logo">
+                    <p>ACUMEN 2025 | CSE Department</p>
+                    <p>Vasavi College of Engineering</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="registration.html">Register</a></li>
+                        <li><a href="team.html">Team</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contact Us</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Vasavi College of Engineering, Hyderabad</p>
+                    <p><i class="fas fa-phone"></i> +91 98765 43210</p>
+                    <p><i class="fas fa-envelope"></i> acumen@vasavi.ac.in</p>
+                </div>
+                <div class="footer-social">
+                    <h3>Follow Us</h3>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+                        <a href="#" class="social-icon" aria-label="Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+                        <a href="#" class="social-icon" aria-label="Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+                        <a href="#" class="social-icon" aria-label="LinkedIn"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 ACUMEN - Vasavi College of Engineering. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('registrationForm');
+            const eventCheckboxes = document.querySelectorAll('input[name="events"]');
+            const teamContainer = document.getElementById('teamMembersContainer');
+            const teamMembers = document.getElementById('teamMembers');
+            const addMemberBtn = document.getElementById('addMember');
+            const totalAmount = document.querySelector('.total-amount');
+            let memberCount = 0;
+            
+            // Event selection handling
+            eventCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    // Update styling for selected events
+                    const card = this.closest('.event-checkbox-card');
+                    if (this.checked) {
+                        card.classList.add('selected');
+                    } else {
+                        card.classList.remove('selected');
+                    }
+                    
+                    // Check if any team event is selected
+                    const teamEventSelected = Array.from(eventCheckboxes).some(cb => 
+                        cb.checked && cb.dataset.team === 'true'
+                    );
+                    
+                    // Show/hide team members section
+                    teamContainer.style.display = teamEventSelected ? 'block' : 'none';
+                    
+                    // Update total amount
+                    updateTotal();
+                });
+            });
+            
+            // Payment method selection
+            const paymentOptions = document.querySelectorAll('.payment-option');
+            paymentOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    // Remove selected class from all options
+                    paymentOptions.forEach(opt => opt.classList.remove('selected'));
+                    // Add selected class to clicked option
+                    this.classList.add('selected');
+                    // Check the radio button
+                    const radio = this.querySelector('input[type="radio"]');
+                    if (radio) radio.checked = true;
+                });
+            });
+            
+            // Add team member
+            addMemberBtn.addEventListener('click', function() {
+                if (memberCount < 3) { // Max 4 members including leader
+                    memberCount++;
+                    const memberHtml = `
+                        <div class="team-member">
+                            <h4>Team Member ${memberCount + 1} <button type="button" class="remove-member"><i class="fas fa-times"></i></button></h4>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="member${memberCount}Name" class="required">Full Name</label>
+                                    <input type="text" id="member${memberCount}Name" name="members[${memberCount}].name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="member${memberCount}Email" class="required">Email</label>
+                                    <input type="email" id="member${memberCount}Email" name="members[${memberCount}].email" required>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="member${memberCount}Phone">Phone</label>
+                                    <input type="tel" id="member${memberCount}Phone" name="members[${memberCount}].phone">
+                                </div>
+                                <div class="form-group">
+                                    <label for="member${memberCount}College">College</label>
+                                    <input type="text" id="member${memberCount}College" name="members[${memberCount}].college">
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    teamMembers.insertAdjacentHTML('beforeend', memberHtml);
+                    
+                    // Add remove event listener
+                    const removeButtons = document.querySelectorAll('.remove-member');
+                    removeButtons.forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            this.closest('.team-member').remove();
+                            memberCount--;
+                            // Update team member numbers
+                            updateMemberNumbers();
+                        });
+                    });
+                    
+                    if (memberCount === 3) {
+                        addMemberBtn.style.display = 'none';
+                    }
+                }
+            });
+            
+            // Update team member numbers
+            function updateMemberNumbers() {
+                const members = document.querySelectorAll('.team-member');
+                members.forEach((member, index) => {
+                    const heading = member.querySelector('h4');
+                    heading.childNodes[0].nodeValue = `Team Member ${index + 2} `;
+                });
+                
+                if (memberCount < 3) {
+                    addMemberBtn.style.display = 'block';
+                }
+            }
+            
+            // Calculate total amount
+            function updateTotal() {
+                let total = 0;
+                eventCheckboxes.forEach(checkbox => {
+                    if (checkbox.checked) {
+                        total += parseInt(checkbox.dataset.fee);
+                    }
+                });
+                totalAmount.textContent = `₹${total}`;
+            }
+            
+            // Form validation and submission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                if (!form.checkValidity()) {
+                    // Show validation errors
+                    form.reportValidity();
+                    return;
+                }
+                
+                // Check if at least one event is selected
+                const selectedEvents = Array.from(eventCheckboxes).filter(cb => cb.checked);
+                if (selectedEvents.length === 0) {
+                    alert('Please select at least one event to participate in.');
+                    return;
+                }
+                
+                // Check team requirements
+                const teamEventsSelected = selectedEvents.filter(cb => cb.dataset.team === 'true');
+                if (teamEventsSelected.length > 0 && document.getElementById('teamName').value.trim() === '') {
+                    alert('Please provide a team name for team events.');
+                    document.getElementById('teamName').focus();
+                    return;
+                }
+                
+                // Simulate form submission
+                alert('Registration successful! You will be redirected to the payment gateway.');
+                // form.submit();
+            });
+        });
+    </script>
+</body>
+</html>
