@@ -1,9 +1,10 @@
 /**
- * Improved form validation for ACUMEN site
+ * Comprehensive form validation for ACUMEN website
+ * Handles all forms including registration and contact forms
  */
 document.addEventListener('DOMContentLoaded', function() {
     // Find all forms that need validation
-    const forms = document.querySelectorAll('form[id$="Form"]');
+    const forms = document.querySelectorAll('form');
     
     forms.forEach(form => {
         // Add custom validation
@@ -32,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
             
-            // Check phone format (optional fields)
+            // Check phone format
             const phoneFields = form.querySelectorAll('input[type="tel"]');
             const phonePattern = /^[\d\s\+\-\(\)]{10,15}$/;
             
@@ -46,6 +47,12 @@ document.addEventListener('DOMContentLoaded', function() {
             // If validation fails, prevent form submission
             if (!isValid) {
                 e.preventDefault();
+                
+                // Scroll to the first error
+                const firstError = form.querySelector('.form-error');
+                if (firstError) {
+                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
             }
         });
         

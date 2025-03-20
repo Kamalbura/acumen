@@ -288,73 +288,86 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(randomGlitch, 3000);
         }
     };
-});
 
-// FIX: Better scroll handling to prevent flickering
-(function() {
-    let scrollTimer;
-    let isScrollingSmoothly = false;
-    const body = document.body;
+    // Hero section button enhancements
+    const registerButton = document.getElementById('registerButton');
+    const exploreButton = document.getElementById('exploreButton');
     
-    // More efficient scroll handler
-    function handleScroll() {
-        if (!isScrollingSmoothly) {
-            isScrollingSmoothly = true;
-            body.classList.add('is-scrolling');
-            
-            // Disable all non-essential animations
-            document.querySelectorAll('.glitch-text').forEach(el => {
-                el.style.animationPlayState = 'paused';
-            });
-        }
+    if (registerButton) {
+        // Add hover effect
+        registerButton.addEventListener('mouseenter', function() {
+            this.classList.add('btn-hover');
+        });
         
-        clearTimeout(scrollTimer);
-        scrollTimer = setTimeout(() => {
-            isScrollingSmoothly = false;
-            body.classList.remove('is-scrolling');
+        registerButton.addEventListener('mouseleave', function() {
+            this.classList.remove('btn-hover');
+        });
+        
+        // Add click animation and analytics tracking
+        registerButton.addEventListener('click', function(e) {
+            // Add click animation
+            this.classList.add('btn-clicked');
             
-            // Only re-enable animations if not on mobile
-            if (window.innerWidth > 768) {
-                document.querySelectorAll('.glitch-text').forEach(el => {
-                    el.style.animationPlayState = 'running';
+            // Track registration button click in analytics (if available)
+            if (typeof gtag === 'function') {
+                gtag('event', 'click', {
+                    'event_category': 'engagement',
+                    'event_label': 'register_button'
                 });
             }
-        }, 300); // Longer timeout for better performance
+            
+            // For mobile, add active state
+            if (window.innerWidth < 768) {
+                e.preventDefault();
+                const href = this.getAttribute('href');
+                
+                // Add active state briefly
+                this.classList.add('active');
+                
+                // Navigate after animation completes
+                setTimeout(() => {
+                    window.location.href = href;
+                }, 300);
+            }
+        });
     }
     
-    // Use passive event listener for better scroll performance
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    
-    // Also handle touch moves on mobile to detect scrolling early
-    window.addEventListener('touchmove', handleScroll, { passive: true });
-})();
-
-// FIX: Properly throttled random glitch effect
-(function() {
-    const originalRandomGlitch = window.randomGlitch || function() {};
-    let glitchTimeout;
-    
-    window.randomGlitch = function() {
-        // Only apply effects when not scrolling and not on mobile
-        if (!document.body.classList.contains('is-scrolling') && window.innerWidth > 768) {
-            const elements = document.querySelectorAll('.event-card, .section-title, .btn-primary, .btn-secondary');
-            
-            if (elements.length > 0) {
-                const randomElement = elements[Math.floor(Math.random() * elements.length)];
-                
-                randomElement.classList.add('glitch-effect');
-                
-                setTimeout(() => {
-                    randomElement.classList.remove('glitch-effect');
-                }, 200);
-            }
-        }
+    if (exploreButton) {
+        // Add hover effect
+        exploreButton.addEventListener('mouseenter', function() {
+            this.classList.add('btn-hover');
+        });
         
-        // Schedule next glitch with lower frequency
-        clearTimeout(glitchTimeout);
-        glitchTimeout = setTimeout(window.randomGlitch, Math.random() * 8000 + 5000);
-    };
-    
-    // Start the first random glitch with a delay
-    setTimeout(window.randomGlitch, 3000);
-})();
+        exploreButton.addEventListener('mouseleave', function() {
+            this.classList.remove('btn-hover');
+        });
+        
+        // Add click animation and analytics tracking
+        exploreButton.addEventListener('click', function(e) {
+            // Add click animation
+            this.classList.add('btn-clicked');
+            
+            // Track explore events button click in analytics (if available)
+            if (typeof gtag === 'function') {
+                gtag('event', 'click', {
+                    'event_category': 'engagement',
+                    'event_label': 'explore_events_button'
+                });
+            }
+            
+            // For mobile, add active state
+            if (window.innerWidth < 768) {
+                e.preventDefault();
+                const href = this.getAttribute('href');
+                
+                // Add active state briefly
+                this.classList.add('active');
+                
+                // Navigate after animation completes
+                setTimeout(() => {
+                    window.location.href = href;
+                }, 300);
+            }
+        });
+    }
+});

@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery | ACUMEN 2025 | CSE Fest | Vasavi College of Engineering</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/cyberpunk.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Gallery Page Specific Styles */
+        .page-banner {
+            height: 50vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background-color: var(--bg-darker);
+            overflow: hidden;
+        }
+        
+        .page-banner h1 {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            z-index: 10;
+        }
+        
+        .page-banner p {
+            font-size: 1.2rem;
+            color: var(--text-dim);
+            z-index: 10;
+            max-width: 600px;
+        }
+        
+        .gallery-section {
+            padding-top: 40px;
+            padding-bottom: 60px;
+        }
+        
+        .gallery-intro {
+            max-width: 800px;
+            margin: 0 auto 40px;
+            text-align: center;
+        }
+        
+        .gallery-intro p {
+            color: var(--text-dim);
+            margin-bottom: 20px;
+        }
+        
+        .gallery-filter {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+        
+        .filter-btn {
+            padding: 10px 20px;
+            background: transparent;
+            border: 2px solid var(--primary-color);
+            border-radius: 5px;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: var(--header-font);
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background-color: var(--primary-color);
+            color: var(--bg-darker);
+        }
+        
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            height: 250px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            filter: grayscale(20%);
+        }
+        
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 255, 255, 0.2);
+            border-color: var(--primary-color);
+            filter: grayscale(0%);
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        .gallery-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 15px;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: var(--text-light);
+            opacity: 0;
+            transition: all 0.3s ease;
+            transform: translateY(20px);
+        }
+        
+        .gallery-item:hover .gallery-info {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .gallery-info h3 {
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+            font-family: var(--header-font);
+            color: var(--primary-color);
+        }
+        
+        .gallery-info p {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+        }
+        
+        /* Lightbox Styles */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(5, 5, 7, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .lightbox.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 80vh;
+            margin: 0 auto;
+        }
+        
+        .lightbox-image {
+            display: block;
+            max-width: 100%;
+            max-height: 80vh;
+            border: 2px solid var(--primary-color);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+        }
+        
+        .lightbox-caption {
+            position: absolute;
+            bottom: -40px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: var(--text-light);
+        }
+        
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+        
+        .lightbox-close:hover {
+            background-color: var(--primary-color);
+            color: var(--bg-darker);
+        }
+        
+        .lightbox-prev,
+        .lightbox-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.5rem;
+        }
+        
+        .lightbox-prev {
+            left: 20px;
+        }
+        
+        .lightbox-next {
+            right: 20px;
+        }
+        
+        .lightbox-prev:hover,
+        .lightbox-next:hover {
+            background-color: var(--primary-color);
+            color: var(--bg-darker);
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        /* Preloader Styles */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-darker);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(0, 255, 255, 0.3);
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .load-more {
+            display: block;
+            margin: 40px auto 0;
+            padding: 12px 25px;
+            background-color: transparent;
+            border: 2px solid var(--primary-color);
+            color: var(--text-light);
+            font-family: var(--header-font);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .load-more:hover {
+            background-color: var(--primary-color);
+            color: var(--bg-darker);
+        }
+        
+        /* Empty state */
+        .empty-state {
+            padding: 60px 20px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            border: 1px dashed var(--primary-color);
+            margin: 40px 0;
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .empty-state p {
+            color: var(--text-dim);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        /* Animation for gallery items */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .gallery-item {
+            animation: fadeIn 0.5s ease forwards;
+            opacity: 0;
+        }
+        
+        .gallery-item:nth-child(2) { animation-delay: 0.1s; }
+        .gallery-item:nth-child(3) { animation-delay: 0.2s; }
+        .gallery-item:nth-child(4) { animation-delay: 0.3s; }
+        .gallery-item:nth-child(5) { animation-delay: 0.4s; }
+        .gallery-item:nth-child(6) { animation-delay: 0.5s; }
+        
+        /* Responsive styles */
+        @media screen and (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .lightbox-prev,
+            .lightbox-next {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+        }
+        
+        @media screen and (max-width: 480px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .gallery-filter {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .filter-btn {
+                width: 100%;
+                max-width: 250px;
+            }
+            
+            .lightbox-prev,
+            .lightbox-next {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="spinner"></div>
+    </div>
+    
+    <!-- Glitch Effect Overlay -->
+    <div class="glitch-overlay"></div>
+    
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">
+                <div class="acumen-logo-nav">
+                    <span class="department-text">CSE</span>
+                    <span class="glitch-text">ACUMEN</span><span class="year-integrated">2025</span>
+                </div>
+            </div>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="schedule.html">Schedule</a></li>
+                <li><a href="registration.html">Register</a></li>
+                <li><a href="gallery.html" class="active">Gallery</a></li>
+                <li><a href="team.html">Team</a></li>
+                <li><a href="sponsors.html">Sponsors</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Banner -->
+    <section class="page-banner">
+        <div class="container">
+            <h1 class="glitch-text" data-text="GALLERY">GALLERY</h1>
+            <p>Relive the moments from previous ACUMEN events</p>
+        </div>
+        <div class="hero-overlay"></div>
+        <div class="hero-grid"></div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery-section">
+        <div class="container">
+            <div class="gallery-intro">
+                <p>Explore photos and memories from our events. These snapshots capture the innovation, competition, and camaraderie that define the ACUMEN experience.</p>
+            </div>
+            
+            <div class="gallery-filter">
+                <button class="filter-btn active" data-filter="all">All Photos</button>
+                <button class="filter-btn" data-filter="hackathon">Hackathon</button>
+                <button class="filter-btn" data-filter="workshops">Workshops</button>
+                <button class="filter-btn" data-filter="competitions">Competitions</button>
+                <button class="filter-btn" data-filter="cultural">Cultural Events</button>
+            </div>
+            
+            <div class="gallery-grid">
+                <!-- Hackathon Images -->
+                <div class="gallery-item" data-category="hackathon">
+                    <img src="img/gallery/hackathon1.jpg" alt="Hackathon Team Working">
+                    <div class="gallery-info">
+                        <h3>Hackathon 2024</h3>
+                        <p>Teams collaborating on innovative solutions</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item" data-category="hackathon">
+                    <img src="img/gallery/hackathon2.jpg" alt="Hackathon Presentation">
+                    <div class="gallery-info">
+                        <h3>Project Presentations</h3>
+                        <p>Students presenting their final solutions</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item" data-category="hackathon">
+                    <img src="img/gallery/hackathon3.jpg" alt="Hackathon Winners">
+                    <div class="gallery-info">
+                        <h3>Hackathon Winners</h3>
+                        <p>The winning team receiving their prize</p>
+                    </div>
+                </div>
+                
+                <!-- Workshop Images -->
+                <div class="gallery-item" data-category="workshops">
+                    <img src="img/gallery/workshop1.jpg" alt="AI Workshop">
+                    <div class="gallery-info">
+                        <h3>AI Workshop</h3>
+                        <p>Learning about machine learning algorithms</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item" data-category="workshops">
+                    <img src="img/gallery/workshop2.jpg" alt="Blockchain Workshop">
+                    <div class="gallery-info">
+                        <h3>Blockchain Workshop</h3>
+                        <p>Hands-on session on cryptocurrency and blockchain</p>
+                    </div>
+                </div>
+                
+                <!-- Competition Images -->
+                <div class="gallery-item" data-category="competitions">
+                    <img src="img/gallery/competition1.jpg" alt="Coding Competition">
+                    <div class="gallery-info">
+                        <h3>Bug Busters Challenge</h3>
+                        <p>Participants solving complex coding problems</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item" data-category="competitions">
+                    <img src="img/gallery/competition2.jpg" alt="Gaming Tournament">
+                    <div class="gallery-info">
+                        <h3>Gaming Tournament</h3>
+                        <p>CyberClash finals in progress</p>
+                    </div>
+                </div>
+                
+                <!-- Cultural Images -->
+                <div class="gallery-item" data-category="cultural">
+                    <img src="img/gallery/cultural1.jpg" alt="Cultural Performance">
+                    <div class="gallery-info">
+                        <h3>DJ Night</h3>
+                        <p>Closing ceremony celebrations</p>
+                    </div>
+                </div>
+                
+                <div class="gallery-item" data-category="cultural">
+                    <img src="img/gallery/cultural2.jpg" alt="Cultural Event">
+                    <div class="gallery-info">
+                        <h3>Cultural Performance</h3>
+                        <p>Student dance performance during cultural night</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="empty-state hidden">
+                <i class="fas fa-camera"></i>
+                <p>No photos found for this category. Check back soon as we update our gallery with fresh content from upcoming events.</p>
+            </div>
+            
+            <button class="load-more">Load More <i class="fas fa-spinner fa-spin hidden"></i></button>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <img src="" class="lightbox-image" alt="Enlarged image">
+            <div class="lightbox-caption"></div>
+        </div>
+        <button class="lightbox-close" aria-label="Close lightbox"><i class="fas fa-times"></i></button>
+        <button class="lightbox-prev" aria-label="Previous image"><i class="fas fa-chevron-left"></i></button>
+        <button class="lightbox-next" aria-label="Next image"><i class="fas fa-chevron-right"></i></button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="img/acumen-logo-white.png" alt="ACUMEN Logo">
+                    <p>ACUMEN 2025 | CSE Department</p>
+                    <p>Vasavi College of Engineering</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="registration.html">Register</a></li>
+                        <li><a href="team.html">Team</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-contact">
+                    <h3>Contact Us</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Vasavi College of Engineering, 9-5-81, Ibrahim Bagh, Hyderabad</p>
+                    <p><i class="fas fa-phone"></i> +91 98765 43210</p>
+                    <p><i class="fas fa-envelope"></i> acumen@vasavi.ac.in</p>
+                </div>
+                <div class="footer-social">
+                    <h3>Follow Us</h3>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+                        <a href="#" class="social-icon" aria-label="Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+                        <a href="#" class="social-icon" aria-label="Twitter"><i class="fab fa-twitter" aria-hidden="true"></i></a>
+                        <a href="#" class="social-icon" aria-label="LinkedIn"><i class="fab fa-linkedin-in" aria-hidden="true"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 ACUMEN - Vasavi College of Engineering. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Hide preloader when page is loaded
+            const preloader = document.querySelector('.preloader');
+            window.addEventListener('load', function() {
+                preloader.style.opacity = 0;
+                setTimeout(function() {
+                    preloader.style.display = 'none';
+                }, 300);
+            });
+            
+            // Gallery filtering functionality
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const galleryItems = document.querySelectorAll('.gallery-item');
+            const emptyState = document.querySelector('.empty-state');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // Get filter value
+                    const filter = this.getAttribute('data-filter');
+                    
+                    // Filter gallery items
+                    let itemsVisible = 0;
+                    
+                    galleryItems.forEach(item => {
+                        const category = item.getAttribute('data-category');
+                        
+                        if (filter === 'all' || category === filter) {
+                            item.style.display = 'block';
+                            itemsVisible++;
+                            
+                            // Reset animation
+                            item.style.animation = 'none';
+                            item.offsetHeight; // Force reflow
+                            item.style.animation = null;
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                    
+                    // Show/hide empty state
+                    if (itemsVisible === 0) {
+                        emptyState.classList.remove('hidden');
+                    } else {
+                        emptyState.classList.add('hidden');
+                    }
+                });
+            });
+            
+            // Lightbox functionality
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImage = document.querySelector('.lightbox-image');
+            const lightboxCaption = document.querySelector('.lightbox-caption');
+            const lightboxClose = document.querySelector('.lightbox-close');
+            const lightboxPrev = document.querySelector('.lightbox-prev');
+            const lightboxNext = document.querySelector('.lightbox-next');
+            
+            let currentIndex = 0;
+            const visibleItems = () => Array.from(galleryItems).filter(item => item.style.display !== 'none');
+            
+            galleryItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const items = visibleItems();
+                    currentIndex = items.indexOf(this);
+                    
+                    const img = this.querySelector('img');
+                    const info = this.querySelector('.gallery-info');
+                    
+                    lightboxImage.src = img.src;
+                    lightboxImage.alt = img.alt;
+                    
+                    if (info) {
+                        const title = info.querySelector('h3').textContent;
+                        const desc = info.querySelector('p').textContent;
+                        lightboxCaption.textContent = `${title} - ${desc}`;
+                    }
+                    
+                    lightbox.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            });
+            
+            // Close lightbox
+            lightboxClose.addEventListener('click', function() {
+                lightbox.classList.remove('active');
+                document.body.style.overflow = '';
+            });
+            
+            // Close on background click
+            lightbox.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    lightbox.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+            
+            // Previous image
+            lightboxPrev.addEventListener('click', function() {
+                const items = visibleItems();
+                currentIndex = (currentIndex - 1 + items.length) % items.length;
+                updateLightbox(items[currentIndex]);
+            });
+            
+            // Next image
+            lightboxNext.addEventListener('click', function() {
+                const items = visibleItems();
+                currentIndex = (currentIndex + 1) % items.length;
+                updateLightbox(items[currentIndex]);
+            });
+            
+            // Keyboard navigation
+            document.addEventListener('keydown', function(e) {
+                if (!lightbox.classList.contains('active')) return;
+                
+                if (e.key === 'Escape') {
+                    lightbox.classList.remove('active');
+                    document.body.style.overflow = '';
+                } else if (e.key === 'ArrowLeft') {
+                    lightboxPrev.click();
+                } else if (e.key === 'ArrowRight') {
+                    lightboxNext.click();
+                }
+            });
+            
+            function updateLightbox(item) {
+                const img = item.querySelector('img');
+                const info = item.querySelector('.gallery-info');
+                
+                lightboxImage.src = img.src;
+                lightboxImage.alt = img.alt;
+                
+                if (info) {
+                    const title = info.querySelector('h3').textContent;
+                    const desc = info.querySelector('p').textContent;
+                    lightboxCaption.textContent = `${title} - ${desc}`;
+                }
+            }
+            
+            // Load more functionality (simulated)
+            const loadMoreBtn = document.querySelector('.load-more');
+            let page = 1;
+            
+            loadMoreBtn.addEventListener('click', function() {
+                const spinner = this.querySelector('i');
+                spinner.classList.remove('hidden');
+                this.disabled = true;
+                
+                // Simulate loading delay
+                setTimeout(() => {
+                    if (page >= 2) {
+                        this.textContent = 'No More Photos';
+                        this.disabled = true;
+                        return;
+                    }
+                    
+                    // Add new gallery items (in a real implementation, these would be loaded via AJAX)
+                    const filter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
+                    loadNewImages(filter);
+                    
+                    page++;
+                    spinner.classList.add('hidden');
+                    this.disabled = false;
+                }, 1500);
+            });
+            
+            function loadNewImages(filter) {
+                // This would typically be an AJAX call to fetch more images
+                // For now, we'll just simulate adding new items
+                const newCategories = ['hackathon', 'workshops', 'competitions', 'cultural'];
+                const newItems = [];
+                
+                for (let i = 1; i <= 6; i++) {
+                    const randomCategory = newCategories[Math.floor(Math.random() * newCategories.length)];
+                    const item = document.createElement('div');
+                    item.className = 'gallery-item';
+                    item.setAttribute('data-category', randomCategory);
+                    
+                    if (filter !== 'all' && randomCategory !== filter) {
+                        item.style.display = 'none';
+                    }
+                    
+                    item.innerHTML = `
+                        <img src="img/gallery/${randomCategory}${i % 3 + 1}.jpg" alt="${randomCategory} Image">
+                        <div class="gallery-info">
+                            <h3>${randomCategory.charAt(0).toUpperCase() + randomCategory.slice(1)} Event</h3>
+                            <p>ACUMEN 2024 ${randomCategory} highlights</p>
+                        </div>
+                    `;
+                    
+                    document.querySelector('.gallery-grid').appendChild(item);
+                    newItems.push(item);
+                    
+                    // Add click event to new items
+                    item.addEventListener('click', function() {
+                        const items = visibleItems();
+                        currentIndex = items.indexOf(this);
+                        
+                        const img = this.querySelector('img');
+                        const info = this.querySelector('.gallery-info');
+                        
+                        lightboxImage.src = img.src;
+                        lightboxImage.alt = img.alt;
+                        
+                        if (info) {
+                            const title = info.querySelector('h3').textContent;
+                            const desc = info.querySelector('p').textContent;
+                            lightboxCaption.textContent = `${title} - ${desc}`;
+                        }
+                        
+                        lightbox.classList.add('active');
+                        document.body.style.overflow = 'hidden';
+                    });
+                }
+                
+                // Add animation delay to new items
+                newItems.forEach((item, index) => {
+                    item.style.animationDelay = `${index * 0.1}s`;
+                });
+            }
+        });
+    </script>
+</body>
+</html>

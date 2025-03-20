@@ -4,14 +4,14 @@
 .glitch-text {
     position: relative;
     animation: glitch 3s infinite;
-    overflow: visible;
-    display: inline-block;
+    overflow: visible; /* Changed from hidden to prevent clipping issues */
+    display: inline-block; /* Prevent layout shifts */
     /* Hardware acceleration - prevent flickering */
-    transform: translate3d(0, 0, 0);
+    transform: translateZ(0);
     backface-visibility: hidden;
-    will-change: transform;
-    /* Completely pause animations while scrolling */
-    animation-play-state: var(--animation-state, running);
+    will-change: transform, opacity;
+    /* Reduce animation calculations during scroll */
+    animation-play-state: paused;
 }
 
 /* Animation state management - only play when not scrolling */
@@ -21,7 +21,7 @@ body:not(.is-scrolling) .glitch-text {
 
 .glitch-text::before,
 .glitch-text::after {
-    pointer-events: none !important;
+    pointer-events: none !important; /* Ensure text remains clickable */
     content: attr(data-text);
     position: absolute;
     top: 0;
@@ -29,13 +29,11 @@ body:not(.is-scrolling) .glitch-text {
     width: 100%;
     height: 100%;
     clip: rect(0, 0, 0, 0);
-    opacity: 0.6;
+    opacity: 0.6; /* Reduced opacity for better performance */
     /* Hardware acceleration for pseudo-elements */
-    transform: translate3d(0, 0, 0);
+    transform: translateZ(0);
     backface-visibility: hidden;
     will-change: clip;
-    /* Also pause these animations during scroll */
-    animation-play-state: var(--animation-state, running);
 }
 
 .glitch-text::before {
@@ -225,10 +223,10 @@ body:not(.is-scrolling) .glitch-overlay {
 
 @keyframes scan {
     0% {
-        transform: translate3d(0, -100vh, 0);
+        background-position: 0 -100vh;
     }
     100% {
-        transform: translate3d(0, 100vh, 0);
+        background-position: 0 100vh;
     }
 }
 
@@ -404,7 +402,6 @@ body:not(.is-scrolling) .digital-noise::before {
 /* Add variable to control animation intensity that can be modified in JS */
 :root {
     --animation-intensity: 1;
-    --animation-state: running;
 }
 
 /* Fix clipping and overflow issues in key elements */
@@ -442,18 +439,69 @@ a, button, input, select, textarea, .btn, .nav-links li a {
     .glitch-text::after {
         opacity: 0.3; /* Further reduced opacity */
     }
-    
+}
+
+/* Mobile Optimization for Cyberpunk Effects */
+@media screen and (max-width: 768px) {
+    /* Reduce visual noise on mobile */
     .glitch-overlay {
-        opacity: 0.3;
-        animation-duration: 10s; /* Slower animations */
+        opacity: 0.5; /* Reduce intensity */
     }
     
-    .digital-noise::before {
-        display: none; /* Disable on mobile entirely */
+    /* Limit CPU-intensive animations */
+    .glitch-text::before,
+    .glitch-text::after {
+        display: none; /* Disable on mobile for better performance */
+    }
+    
+    /* Simplify glowing effects on mobile */
+    .btn-primary, .btn-secondary {
+        box-shadow: 0 0 8px var(--primary-color); /* Reduced glow */
+    }
+    
+    /* Optimize border glow animations */
+    .event-card::after, .countdown-container::after {
+        animation: none; /* Disable animation on mobile */
+        opacity: 0.3;
+    }
+    
+    /* Fix for body::after performance issues */
+    body::after {
+        background: none; /* Remove CPU-intensive effect on mobile */
     }
 }
 
-/* Completely suspend all animations during scroll */
-body.is-scrolling {
-    --animation-state: paused;
+/* Optimize scrollbar for touch devices */
+@media (pointer: coarse) {
+    ::-webkit-scrollbar {
+        width: 3px; /* Thinner scrollbar on touch */
+    }
+    
+    /* Hide scrollbar but keep functionality */
+    ::-webkit-scrollbar-thumb {
+        background: rgba(0, 255, 255, 0.3);
+    }
+}
+
+/* Fix for any effects causing horizontal overflow */
+@media screen and (max-width: 768px) {
+    /* Ensure glitch effects don't cause horizontal overflow */
+    .glitch-text, .glitch-text::before, .glitch-text::after {
+        white-space: normal; /* Allow text wrapping on mobile */
+        max-width: 100%; /* Constrain to parent width */
+    }
+    
+    /* Scale down some animations that might cause mobile performance issues */
+    .event-card::after, .countdown-container::after {
+        display: none; /* Disable certain complex effects on mobile */
+    }
+    
+    /* Fix for any effects going beyond screen edge */
+    .hero-overlay, .hero-grid, .glitch-overlay {
+        left: 0;
+        right: 0;
+        width: 100vw; /* Use viewport width */
+        max-width: 100vw;
+        overflow: hidden;
+    }
 }
