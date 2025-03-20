@@ -349,7 +349,7 @@ section {
 .countdown .time span:first-child {
     font-size: 2rem;
     font-weight: 700;
-    color: var (--primary-color);
+    color: var(--primary-color); /* Fixed space in variable */
     margin-bottom: 5px;
     font-family: var(--header-font);
     min-width: 60px;
@@ -606,7 +606,7 @@ section {
 
 .footer-contact p {
     margin-bottom: 10px;
-    color: var (--text-dim);
+    color: var(--text-dim); /* Fixed space in variable */
     font-size: 0.9rem;
     display: flex;
     align-items: center;
@@ -676,6 +676,23 @@ body::after {
 section, .container, .navbar, .footer, button, a, input, select, textarea {
     position: relative;
     z-index: 5;
+}
+
+/* Add rendering optimizations */
+.section-title, 
+.hero-text, 
+.event-card, 
+.countdown-container,
+.about-content,
+.footer-content {
+    transform: translate3d(0, 0, 0);
+    will-change: transform;
+}
+
+/* Prevent layout thrashing during scroll */
+body.is-scrolling * {
+    transition: none !important;
+    animation-play-state: paused !important;
 }
 
 /* Responsive Styles */

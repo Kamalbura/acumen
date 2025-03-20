@@ -4,42 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>ACUMEN 2025 | CSE Fest | Vasavi College of Engineering</title>
+    <!-- Cross-browser compatibility meta tags -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
     <!-- Critical Scroll Fix -->
     <style>
-        html, body {
-            height: auto !important;
-            min-height: 100% !important;
-            overflow-x: hidden !important;
+        /* Critical rendering path optimization */
+        html, body { 
+            height: 100%; 
+            margin: 0; 
+            overflow-x: hidden; 
+            -webkit-overflow-scrolling: touch;
+        }
+        /* Force GPU acceleration on all browsers */
+        body * {
+            -webkit-transform: translateZ(0);
+            -moz-transform: translateZ(0);
+            -ms-transform: translateZ(0);
+            transform: translateZ(0);
+        }
+        /* Wait for fonts before displaying text */
+        .wf-loading {
+            visibility: hidden;
+        }
+        .wf-active, .wf-inactive {
+            visibility: visible;
         }
         
-        html {
-            overflow-y: scroll !important;
-            scroll-behavior: smooth;
-        }
-        
-        body {
-            overflow-y: visible !important;
-            position: relative !important;
-        }
-        
-        /* Fix stacking context */
-        .glitch-overlay, body::after {
-            pointer-events: none !important;
-        }
-        
-        /* Fix positioning */
-        section, .container, .navbar, .footer {
-            position: relative;
-            z-index: 2;
-        }
-    </style>
-    <!-- Make sure CSS paths are correct -->
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/cyberpunk.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <style>
-        /* Quick fix for scrolling issues */
         html {
             scroll-behavior: smooth;
             height: auto !important;
@@ -217,6 +208,14 @@
             background: var(--bg-dark-hover);
         }
     </style>
+    
+    <!-- Make sure CSS paths are correct -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/cyberpunk.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <!-- Glitch Effect Overlay -->
@@ -416,8 +415,9 @@
         </div>
     </footer>
 
-    <script src="js/main.js"></script>
-    <script src="js/countdown.js"></script>
+    <!-- Add defer attribute to scripts for better loading -->
+    <script src="js/main.js" defer></script>
+    <script src="js/countdown.js" defer></script>
     
     <script>
         // FAQ Functionality
@@ -444,6 +444,27 @@
         if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
             document.body.style.webkitOverflowScrolling = "touch";
         }
+
+        // Detect scrolling issues automatically and fix them
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if scrolling works
+            const documentHeight = Math.max(
+                document.body.scrollHeight, 
+                document.documentElement.scrollHeight,
+                document.body.offsetHeight, 
+                document.documentElement.offsetHeight,
+                document.body.clientHeight, 
+                document.documentElement.clientHeight
+            );
+            
+            if (documentHeight <= window.innerHeight) {
+                console.warn("Content height may not be sufficient for scrolling");
+                document.body.style.minHeight = (window.innerHeight + 100) + "px";
+            }
+            
+            // Force relayout
+            void(document.documentElement.offsetHeight);
+        });
     </script>
 </body>
 </html>
