@@ -1,5 +1,19 @@
 /* Event page styles to ensure consistent display across all event pages */
 
+/* Category-specific styling variables */
+:root {
+    --tech-color: #00ffcc;
+    --tech-color-rgb: 0, 255, 204;
+    --nontech-color: #ff9900;
+    --nontech-color-rgb: 255, 153, 0;
+    --gaming-color: #ff3366;
+    --gaming-color-rgb: 255, 51, 102;
+    --hackathon-color: #9966ff;
+    --hackathon-color-rgb: 153, 102, 255;
+    --coding-color: #33ccff;
+    --coding-color-rgb: 51, 204, 255;
+}
+
 /* Event Hero Section */
 .event-hero {
     position: relative;
@@ -10,6 +24,47 @@
     background-size: cover;
     background-position: center;
     overflow: hidden;
+}
+
+.event-hero::before {
+    content: attr(data-category);
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 8px 15px;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    z-index: 10;
+    background: rgba(0, 0, 0, 0.7);
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+}
+
+.event-hero[data-category="technical"]::before {
+    border-color: var(--tech-color);
+    color: var(--tech-color);
+}
+
+.event-hero[data-category="non-technical"]::before {
+    border-color: var(--nontech-color);
+    color: var(--nontech-color);
+}
+
+.event-hero[data-category="gaming"]::before {
+    border-color: var(--gaming-color);
+    color: var(--gaming-color);
+}
+
+.event-hero[data-category="hackathon"]::before {
+    border-color: var(--hackathon-color);
+    color: var(--hackathon-color);
+}
+
+.event-hero[data-category="coding"]::before {
+    border-color: var(--coding-color);
+    color: var(--coding-color);
 }
 
 .event-hero-overlay {
@@ -108,6 +163,41 @@
     border: 1px solid rgba(0, 255, 255, 0.1);
 }
 
+.event-section-content h2 {
+    position: relative;
+    display: inline-block;
+}
+
+.event-section-content h2::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary-color), transparent);
+}
+
+.event-page[data-category="technical"] .event-section-content h2::after {
+    background: linear-gradient(90deg, var(--tech-color), transparent);
+}
+
+.event-page[data-category="non-technical"] .event-section-content h2::after {
+    background: linear-gradient(90deg, var(--nontech-color), transparent);
+}
+
+.event-page[data-category="gaming"] .event-section-content h2::after {
+    background: linear-gradient(90deg, var(--gaming-color), transparent);
+}
+
+.event-page[data-category="hackathon"] .event-section-content h2::after {
+    background: linear-gradient(90deg, var(--hackathon-color), transparent);
+}
+
+.event-page[data-category="coding"] .event-section-content h2::after {
+    background: linear-gradient(90deg, var(--coding-color), transparent);
+}
+
 .event-section h2 {
     color: var(--primary-color);
     font-size: 2rem;
@@ -133,7 +223,7 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 20px;
-    margin-top: 30px;
+    margin-top: 40px;
 }
 
 .event-meta-item {
@@ -141,6 +231,44 @@
     padding: 15px;
     border-radius: 8px;
     border-left: 3px solid var(--primary-color);
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+}
+
+.event-meta-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--primary-color);
+}
+
+.event-meta-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.event-page[data-category="technical"] .event-meta-item::before {
+    background: var(--tech-color);
+}
+
+.event-page[data-category="non-technical"] .event-meta-item::before {
+    background: var(--nontech-color);
+}
+
+.event-page[data-category="gaming"] .event-meta-item::before {
+    background: var(--gaming-color);
+}
+
+.event-page[data-category="hackathon"] .event-meta-item::before {
+    background: var(--hackathon-color);
+}
+
+.event-page[data-category="coding"] .event-meta-item::before {
+    background: var(--coding-color);
 }
 
 .event-meta-item h3 {
@@ -172,6 +300,11 @@
     padding: 8px 0 8px 25px;
     color: var(--text-dim);
     border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+    transition: transform 0.2s ease;
+}
+
+.event-rules li:hover {
+    transform: translateX(5px);
 }
 
 .event-rules li:before {
@@ -194,12 +327,37 @@
     border-radius: 10px;
     border: 1px solid rgba(0, 255, 255, 0.1);
     transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .guideline-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0, 255, 255, 0.1);
-    border-color: var(--primary-color);
+    transform: translateY(-8px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.event-page[data-category="technical"] .guideline-item:hover {
+    border-color: var(--tech-color);
+    box-shadow: 0 10px 20px rgba(var(--tech-color-rgb), 0.1);
+}
+
+.event-page[data-category="non-technical"] .guideline-item:hover {
+    border-color: var(--nontech-color);
+    box-shadow: 0 10px 20px rgba(var(--nontech-color-rgb), 0.1);
+}
+
+.event-page[data-category="gaming"] .guideline-item:hover {
+    border-color: var(--gaming-color);
+    box-shadow: 0 10px 20px rgba(var(--gaming-color-rgb), 0.1);
+}
+
+.event-page[data-category="hackathon"] .guideline-item:hover {
+    border-color: var(--hackathon-color);
+    box-shadow: 0 10px 20px rgba(var(--hackathon-color-rgb), 0.1);
+}
+
+.event-page[data-category="coding"] .guideline-item:hover {
+    border-color: var(--coding-color);
+    box-shadow: 0 10px 20px rgba(var(--coding-color-rgb), 0.1);
 }
 
 .guideline-item h4 {
