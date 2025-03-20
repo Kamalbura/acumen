@@ -71,20 +71,14 @@ section {
 /* Button Styles */
 .btn {
     display: inline-block;
-    padding: 12px 30px;
-    font-family: var(--header-font);
-    font-weight: 500;
-    text-transform: uppercase;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    letter-spacing: 1px;
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
-    user-select: none;
+    padding: 10px 20px;
+    border-radius: 5px;
     text-decoration: none;
+    font-family: var(--header-font);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    text-align: center;
+    cursor: pointer; /* Ensure the cursor changes to pointer */
 }
 
 .btn .btn-hover-effect {
@@ -164,22 +158,25 @@ section {
 .btn-primary {
     background-color: var(--primary-color);
     color: var(--bg-darker);
+    border: 1px solid var(--primary-color);
 }
 
 .btn-primary:hover {
-    background-color: var(--text-accent);
-    color: var(--bg-darker);
+    background-color: var(--bg-darker);
+    color: var(--primary-color);
+    box-shadow: 0 0 10px var(--primary-color);
 }
 
 .btn-secondary {
     background-color: transparent;
-    border: 2px solid var(--secondary-color);
-    color: var(--secondary-color);
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
 }
 
 .btn-secondary:hover {
-    background-color: var(--secondary-color);
+    background-color: var(--primary-color);
     color: var(--bg-darker);
+    box-shadow: 0 0 10px var(--primary-color);
 }
 
 .btn-outline {
@@ -271,7 +268,7 @@ section {
     width: 25px;
     height: 3px;
     margin-bottom: 5px;
-    background-color: var(--text-light);
+    background-color: var (--text-light);
     transition: all 0.3s ease;
 }
 
@@ -408,9 +405,10 @@ section {
 }
 
 .hero-buttons {
-    margin-top: 2rem;
     display: flex;
     gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
 }
 
 /* Hero ACUMEN Logo Styling - updated for integrated year */

@@ -1,0 +1,227 @@
+/* Digital Noise Effect */
+.digital-noise {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9998; /* Under cursor but above everything else */
+    opacity: 0.03;
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAD1GSURBVHjaXXlnUGXpdd956ZzTyTcnOjcCDQ0NEkhCgAAhCQkBMiIIyWACkm3Mx7HHM+PPM+NZ2/OVx3a5vFVecrlqXFW7W+XZrfLWbO1Wze7O7M76++M5t2n1OdT9nHPf8L7PWZ7znPNe/uSnf2DXbtyweXl5bF9fd7idm3FUVlaa4uJie+vWLVdXV2e2t7dt6urVGzY6OsKdnp6a2NiYdj7f3n/wMN7pVK6EnzSZTKawsDCWTVpSkqOlJZfz+/3l586d2797924qgE1JSbFFRUVF7PXr1/3Nzc2t0dGRlT/96U/r2tvb7eeff+4ORDhbX19nQgBMS0uzJSXFtr+/3+Xl5dnh4SEwbRmfaWlpcdnZ2Xxn5ObNm045j3R0dDgggT9ql5aWDP5YUlKSLSgoYPlDQUFBor+/v0AIBoLBYOXnn39eb7fbK5ubmx2zs3MuPT3d+Xy+gL6L5D3inWY2btkHDx7YyMgIF8cB5/EE6+vrLa+tvnXr5hG+G0ZGRkzP7bf9gUBAbL7rCNz3vROJeEVwsj47C7DjF/T5fMbrI9yenpora2oYxfPnyZXbunp6ekpvvPnyZXbui5h20N/f3/fq1au8B/A/ur29XdDPpvvp06em/8oAGKNMYmKiE7jJAxRusw/ev+vjx48upkwyYBMGQ1HOnp6e7tAvY4uKimxeXp598OCBhVhWvrMQz/KeQKoaEiSTl5fvUtLTXVlZWfHQ0FDVy5cv646Pj2vu3LnjEpOSXND04XkQaZr09HSuMP39/a6wuNimZ2S4w6MjN7u4aLZ3NsXu0bh2C2ZD8LCDNp7XPzo87PzJyYlGONn+7OxsP3Md0J4vMzPTOXzNZCSaW7dumvHxcTM0NMR4TQzOx7OwS4pGBGR46MhkpqeZSDXzNzY0JIWb5EP1BahqcnKCON91OTk5YteA5QlzfGLTMzLM4NCQeTQy7L57/xvuo4cf2b29PXd0dGSuXr1qJqemzOio175169YRNr8jtk25wCQds7+34yqO+ZvBkxngouKVlRULnCPDw8OB+vp6pgITl4m7fHmYexfLe4B3z4DAbJSSBB6+Iz/A1NTUFA8MDLQ8ePCgXq6Lw+53BTgfxG5VVaUBmktMSjRFxSWmtq7eDA8PW8AEAsHg13/0o68LsZvrEw2YqigpLiaWfHNptVXm3Xffdzdv3nTb29uur7fXffPhhwnia+TuV598YqSNZu9gd5eVIAzgg8vJzXWFoPbmzZt2YmLC9PT0uMHBQXdzcdEkhMMuD2qpqqqygM/zXDOXwM4hzmccOarreEtLS/NkZSUDAwNuZ2d7Hz97QOyUVlRU+IiJwvX1NVNZWekEau7dR4/MlStXzMTEhJucmnTt4bDp7uq0jw6nEP+pKyx0LS0t8fLFRiHihoaG0vExMRvYKVHslN+7dy+bmLQSk54Fc/TgwYOgQgXmugKAptjY2rgB5k7cnp2fMxgoz7DQCmZxj5P3RjSZ2FhXUVnpGpeXnQKNcQpr66v+XCUlxS4/P9+m9Pa6opIS19ra6kZxQy4PNYhNvXPp0iWDxktFMRcqH3344YcZk5OT5XwXAk8FGGv0+WOorhgbG7Oj2M+T5O3JGanQfRI2GRkZPI/mfIilMLG1aS5fHnLRMdFlOgRgeWccNOszawCdIR7IQgUsC7HP5/P18vCCpAKDuuIktnilpblt27bbFxcXfbm5ufb+48cGMTPJnTt3XgH2jAjDCZDvPHny5EAehsgylJSUBLa3tyNErjEyhkt1UY5xjHOXL
+
+    animation: flicker 0.15s infinite;
+}
+
+@keyframes flicker {
+    0% { opacity: 0.01; }
+    50% { opacity: 0.03; }
+    100% { opacity: 0.02; }
+}
+
+/* Hover Effects for Cards */
+.event-card:hover .event-badge,
+.organizer-card:hover h4,
+.sponsor-card:hover h3 {
+    text-shadow: 0 0 8px var(--primary-color);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { text-shadow: 0 0 5px var(--primary-color); }
+    50% { text-shadow: 0 0 15px var(--primary-color), 0 0 5px var(--secondary-color); }
+    100% { text-shadow: 0 0 5px var(--primary-color); }
+}
+
+/* Glowing border animation */
+.glow-border {
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.glow-border::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, var(--primary-color), transparent 30%, transparent 70%, var(--secondary-color));
+    z-index: -1;
+    border-radius: inherit;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    animation: rotate-border 5s linear infinite;
+}
+
+.glow-border:hover::before {
+    opacity: 1;
+}
+
+@keyframes rotate-border {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Scanline effect for sections */
+.scanline-effect {
+    position: relative;
+    overflow: hidden;
+}
+
+.scanline-effect::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: rgba(0, 255, 255, 0.3);
+    opacity: 0.3;
+    box-shadow: 0 0 4px rgba(0, 255, 255, 0.5);
+    z-index: 2;
+    animation: scanline 6s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes scanline {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(1000%); }
+}
+
+/* Text scramble effect */
+.scramble-text {
+    position: relative;
+}
+
+.scramble-text.scrambling::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: var(--primary-color);
+    animation: scramble 1s infinite linear alternate;
+}
+
+@keyframes scramble {
+    0% {
+        clip-path: polygon(0 0, 100% 0, 100% 44%, 0 44%);
+        transform: translate(0.3px, 0.4px);
+    }
+    50% {
+        clip-path: polygon(0 44%, 100% 44%, 100% 56%, 0 56%);
+        transform: translate(-0.3px, 0);
+    }
+    100% {
+        clip-path: polygon(0 56%, 100% 56%, 100% 100%, 0 100%);
+        transform: translate(0.2px, -0.4px);
+    }
+}
+
+/* Glitch button effect */
+.btn-glitch {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-glitch::before {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    opacity: 0;
+    transform: translate(-10px, 0);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--secondary-color);
+}
+
+.btn-glitch:hover::before {
+    opacity: 1;
+    transform: translate(10px, 0);
+    animation: glitch-btn 0.3s infinite alternate-reverse;
+}
+
+@keyframes glitch-btn {
+    0% { transform: translate(-3px, 0); }
+    100% { transform: translate(3px, 0); }
+}
+
+/* Energy field around elements */
+.energy-field {
+    position: relative;
+    z-index: 1;
+}
+
+.energy-field::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 50% 50%, 
+                rgba(0, 255, 255, 0.15), 
+                transparent 60%);
+    z-index: -1;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: all 0.5s ease;
+    border-radius: inherit;
+}
+
+.energy-field:hover::before {
+    opacity: 1;
+    transform: scale(1.2);
+    animation: pulse-field 2s infinite;
+}
+
+@keyframes pulse-field {
+    0% { transform: scale(1.1); opacity: 0.2; }
+    50% { transform: scale(1.3); opacity: 0.3; }
+    100% { transform: scale(1.1); opacity: 0.2; }
+}
+
+/* Text data corruption effect */
+.corrupt-text:hover {
+    animation: corrupt 1s linear;
+}
+
+@keyframes corrupt {
+    0% { transform: translate(0, 0); text-shadow: none; }
+    20% { transform: translate(-1px, 1px); text-shadow: 2px 0 0 rgba(0,255,255,0.5); }
+    40% { transform: translate(1px, -1px); text-shadow: -2px 0 0 rgba(255,0,255,0.5); }
+    60% { transform: translate(2px, 2px); text-shadow: 2px 2px 0 rgba(0,255,255,0.5); }
+    80% { transform: translate(-2px, -2px); text-shadow: -2px -2px 0 rgba(255,0,255,0.5); }
+    100% { transform: translate(0, 0); text-shadow: none; }
+}
+
+/* Electronic circuit path */
+.circuit-path {
+    position: relative;
+}
+
+.circuit-path::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+    background: linear-gradient(90deg, transparent, var(--primary-color) 30%, var(--primary-color) 70%, transparent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s ease;
+}
+
+.circuit-path:hover::after {
+    transform: scaleX(1);
+}

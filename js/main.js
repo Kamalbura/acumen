@@ -370,4 +370,129 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+    
+    // Add custom cursor activation
+    if (!('ontouchstart' in window)) {
+        document.body.classList.add('custom-cursor-active');
+        
+        // Add glitch hover effect to text elements
+        const headings = document.querySelectorAll('h1, h2, h3, .event-title, .footer-logo p');
+        headings.forEach(heading => {
+            if (!heading.classList.contains('glitch-text')) {  // Skip already glitched elements
+                heading.classList.add('glitch-hover');
+                heading.setAttribute('data-text', heading.textContent);
+            }
+        });
+    }
+    
+    // Add parallax effect to hero sections
+    const heroSections = document.querySelectorAll('.hero-section, .event-hero, .page-banner');
+    
+    window.addEventListener('scroll', function() {
+        const scrollPosition = window.pageYOffset;
+        
+        heroSections.forEach(section => {
+            // Only apply effect if section is in viewport
+            const rect = section.getBoundingClientRect();
+            if (rect.top < window.innerHeight && rect.bottom >= 0) {
+                // Adjust background position based on scroll
+                const speed = 0.5;
+                section.style.backgroundPosition = `center ${scrollPosition * speed}px`;
+            }
+        });
+    });
+    
+    // Add card tilt effect
+    const cards = document.querySelectorAll('.event-card, .organizer-card, .sponsor-card');
+    
+    cards.forEach(card => {
+        card.addEventListener('mousemove', function(e) {
+            // Get position of mouse relative to card
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            // Calculate rotation based on mouse position
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            // Limit tilt amount
+            const maxTilt = 10;
+            const tiltX = ((y - centerY) / centerY) * maxTilt;
+            const tiltY = -((x - centerX) / centerX) * maxTilt;
+            
+            // Apply transform
+            this.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1.02, 1.02, 1.02)`;
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            // Reset transform on mouse leave
+            this.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale3d(1, 1, 1)';
+        });
+    });
+    
+    // Add animated underline effect to links
+    document.querySelectorAll('.animated-link').forEach(link => {
+        link.innerHTML = `<span class="animated-link-text">${link.textContent}</span>`;
+        link.innerHTML += `<svg class="animated-link-line" width="100%" height="8" viewBox="0 0 100 8"><path d="M0,5 Q25,3 50,5 T100,5" stroke-width="2" stroke="var(--primary-color)" fill="none" /></svg>`;
+    });
+    
+    // Improve navigation interaction
+    const navLinks = document.querySelectorAll('.nav-links a');
+    navLinks.forEach(link => {
+        link.addEventListener('mouseenter', function() {
+            this.style.textShadow = `0 0 10px var(--primary-color)`;
+        });
+        
+        link.addEventListener('mouseleave', function() {
+            this.style.textShadow = 'none';
+        });
+    });
+    
+    // Digital noise effect
+    const noise = document.createElement('div');
+    noise.className = 'digital-noise';
+    document.body.appendChild(noise);
+    
+    // Add border glow effect to cards and buttons
+    document.querySelectorAll('.event-card, .sponsor-card, .organizer-card').forEach(card => {
+        card.classList.add('glow-border');
+    });
+    
+    // Add energy field effect to buttons
+    document.querySelectorAll('.btn').forEach(btn => {
+        btn.classList.add('energy-field');
+        btn.setAttribute('data-text', btn.textContent);
+    });
+    
+    // Add scanline effect to sections
+    document.querySelectorAll('.event-hero, .hero-section, .about-section').forEach(section => {
+        section.classList.add('scanline-effect');
+    });
+    
+    // Add circuit path effect to footer links
+    document.querySelectorAll('.footer-links a').forEach(link => {
+        link.classList.add('circuit-path');
+    });
+    
+    // Add corrupt text effect to social icons
+    document.querySelectorAll('.social-icon').forEach(icon => {
+        icon.classList.add('corrupt-text');
+    });
+    
+    // Add text scramble effect for tech-themed elements
+    const techElements = document.querySelectorAll('.event-title');
+    
+    techElements.forEach(element => {
+        element.classList.add('scramble-text');
+        element.setAttribute('data-text', element.textContent);
+        
+        element.addEventListener('mouseenter', function() {
+            this.classList.add('scrambling');
+        });
+        
+        element.addEventListener('mouseleave', function() {
+            this.classList.remove('scrambling');
+        });
+    });
 });

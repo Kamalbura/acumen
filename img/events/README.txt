@@ -16,9 +16,23 @@ Required image files for events:
 - squid_gaming.jpg - Image related to the Squid Gaming event
 - events_banner.jpg - Banner image for the events directory page
 
+Poster files for events (detailed high-quality promotional images):
+- paper_presentation_poster.jpg - Promotional poster for Paper Presentation
+- poster_presentation_poster.jpg - Promotional poster for Poster Presentation
+- project_expo_poster.jpg - Promotional poster for Project Expo
+- code_escape_poster.jpg - Promotional poster for Code to Escape
+- bid_code_poster.jpg - Promotional poster for Bid N Code
+- jail_break_poster.jpg - Promotional poster for Jail Break Challenge
+- ai_imagination_poster.jpg - Promotional poster for AI Imagination
+- shark_tank_poster.jpg - Promotional poster for Shark Tank Challenge
+- free_fire_poster.jpg - Promotional poster for Free Fire Tournament
+- treasure_hunt_poster.jpg - Promotional poster for Treasure Hunt
+- squid_gaming_poster.jpg - Promotional poster for Squid Gaming
+
 Image Specifications:
 - Event cards: 600x400 pixels (will be displayed at smaller sizes but maintain quality)
 - Hero/banner images: 1920x1080 pixels
+- Event posters: 800x1200 pixels (portrait orientation, high resolution)
 - Format: JPG or PNG
 - File size: Optimize for web, preferably under 300KB per image
 
