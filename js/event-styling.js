@@ -24,7 +24,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Apply colors to CSS variables
     Object.entries(categoryColors).forEach(([category, color]) => {
         document.documentElement.style.setProperty(`--${category}-color`, color);
-        
         document.documentElement.style.setProperty(`--${category}-color-rgb`, hexToRgb(color));
     });
     
@@ -46,10 +45,25 @@ document.addEventListener('DOMContentLoaded', function() {
     const animateEventCards = () => {
         const eventCards = document.querySelectorAll('.event-card');
         if (eventCards.length > 0) {
-            eventCards.forEach((card, index) => {
+            // Set default categories if not already set
+            eventCards.forEach(card => {
+                if (!card.hasAttribute('data-category')) {
+                    // Extract category from badge text if possible
+                    const badge = card.querySelector('.event-badge');
+                    if (badge) {
+                        const badgeText = badge.textContent.trim().toLowerCase();
+                        if (Object.keys(categoryColors).includes(badgeText)) {
+                            card.setAttribute('data-category', badgeText);
+                        } else {
+                            // Set default category
+                            card.setAttribute('data-category', 'technical');
+                        }
+                    }
+                }
+                
                 setTimeout(() => {
                     card.classList.add('animate-in');
-                }, index * 100); // Staggered animation
+                }, 100); // Use a consistent timing for better performance
             });
         }
     };
@@ -57,15 +71,47 @@ document.addEventListener('DOMContentLoaded', function() {
     // Apply hover effects for guideline items
     const guidelineItems = document.querySelectorAll('.guideline-item');
     guidelineItems.forEach(item => {
+        // Add transition CSS directly to avoid potential issues
+        item.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease';
+        
         item.addEventListener('mouseenter', function() {
             this.style.transform = 'translateY(-8px)';
+            this.style.boxShadow = '0 10px 20px rgba(0, 0, 0, 0.2)';
         });
         
         item.addEventListener('mouseleave', function() {
             this.style.transform = 'translateY(0)';
+            this.style.boxShadow = 'none';
         });
     });
     
-    // Initialize animations
+    // Fix for FAQ accordion functionality
+    const initFaqAccordion = () => {
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        
+        faqQuestions.forEach(question => {
+            // Initially hide all answers
+            const answer = question.nextElementSibling;
+            if (answer && answer.classList.contains('faq-answer')) {
+                answer.style.display = 'none';
+            }
+            
+            question.addEventListener('click', function() {
+                this.classList.toggle('active');
+                
+                const answer = this.nextElementSibling;
+                if (answer && answer.classList.contains('faq-answer')) {
+                    if (this.classList.contains('active')) {
+                        answer.style.display = 'block';
+                    } else {
+                        answer.style.display = 'none';
+                    }
+                }
+            });
+        });
+    };
+    
+    // Initialize all functionality
     animateEventCards();
+    initFaqAccordion();
 });
