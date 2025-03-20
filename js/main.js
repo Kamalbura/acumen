@@ -240,4 +240,52 @@ document.addEventListener('DOMContentLoaded', function() {
         
         lastScrollTop = st;
     });
+    
+    // Fix scrolling flickering by pausing animations during scroll
+    let scrollTimeout;
+    let isScrolling = false;
+    
+    function onScroll() {
+        if (!isScrolling) {
+            isScrolling = true;
+            document.body.classList.add('is-scrolling');
+        }
+        
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(function() {
+            isScrolling = false;
+            document.body.classList.remove('is-scrolling');
+        }, 100);
+    }
+    
+    // Optimized scroll event with passive flag for better performance
+    window.addEventListener('scroll', onScroll, { passive: true });
+    
+    // Fix for animation-related flickering
+    function optimizeAnimations() {
+        const glitchTexts = document.querySelectorAll('.glitch-text');
+        
+        glitchTexts.forEach(function(element) {
+            // Ensure each element has a data-text attribute
+            if (!element.getAttribute('data-text')) {
+                element.setAttribute('data-text', element.textContent);
+            }
+            
+            // Force hardware acceleration
+            element.style.transform = 'translateZ(0)';
+        });
+    }
+    
+    optimizeAnimations();
+    
+    // Throttle random glitch effect to reduce repaints
+    const originalRandomGlitch = randomGlitch;
+    randomGlitch = function() {
+        if (!isScrolling) {
+            originalRandomGlitch();
+        } else {
+            // When scrolling, schedule next check without executing effect
+            setTimeout(randomGlitch, 3000);
+        }
+    };
 });
